@@ -68,13 +68,51 @@ void myGameObject::Draw()
 bool myGameObject::IsLeavingPlayArea()
 {
 	GameObject& obj_player = Play::GetGameObject(objectID);
-	
+
 	if (Play::IsLeavingDisplayArea(obj_player))
 	{
 		obj_player.pos = obj_player.oldPos;
 		return true;
 	}
 	else	return false;
+}
+
+bool myGameObject::CheckOverlap(myGameObject otherObject)
+{
+	PlayGraphics& pblt = PlayGraphics::Instance();
+
+	int objBounds[] = {0,0, rectScale.x, rectScale.y};
+	int otherobjBounds[] = {0,0, otherObject.rectScale.x, otherObject.rectScale.y};
+
+	GameObject& obj_player1 = Play::GetGameObject(objectID);
+	GameObject& obj_player2 = Play::GetGameObject(otherObject.objectID);
+
+
+	
+
+	return pblt.SpriteCollide(obj_player1.spriteId, obj_player1.pos, 0, 0, objBounds, obj_player2.spriteId, obj_player2.pos, 0, 0, otherobjBounds);
+
+
+
+	
+
+
+
+
+
+
+
+	/*Vector2f	topLeftPos = GetPosition();
+	Vector2f	bottomRightPos = topLeftPos + rectScale;
+
+	Vector2f	otherTopLeftPos = otherObject.GetPosition();
+	Vector2f	otherBottomRightPos = otherTopLeftPos + otherObject.rectScale;
+
+	bool xOverlap = bottomRightPos.x > otherTopLeftPos.x && otherBottomRightPos.x > topLeftPos.x;
+	bool yOverlap = bottomRightPos.y > otherTopLeftPos.y && otherBottomRightPos.y > topLeftPos.y;
+
+	if (xOverlap && yOverlap) 		return true;
+	return false;*/
 }
 
 

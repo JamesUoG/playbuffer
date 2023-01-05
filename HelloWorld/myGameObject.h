@@ -4,7 +4,6 @@
 #include <string>
 #include "Play.h"	
 
-
 class myGameObject
 {
 public:
@@ -25,11 +24,16 @@ public:
 	void SetVelocity(Point2f newVelocity);
 	void SetPosition(Point2f newVelocity);
 	void SetAcceleration(Point2f newAcceleration);
+
+
 	
 	Vector2f GetVelocity();
 	Vector2f GetAcceleration();
 	Vector2f GetPosition();
+
 	void Draw();
+
+	bool CheckOverlap(myGameObject otherObject);
 
 	bool IsLeavingPlayArea();
 

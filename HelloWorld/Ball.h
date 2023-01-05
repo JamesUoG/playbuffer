@@ -10,6 +10,8 @@ public:
 	void Update();
 	void Init(std::string spriteName, Vector2f startPos, Vector2f startScale);
 
+
+	void CheckBounce(myGameObject otherObject);
 	void BounceX();
 	void BounceY();
 	Ball();

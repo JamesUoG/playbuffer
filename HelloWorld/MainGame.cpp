@@ -9,12 +9,17 @@
 #include "Statics.h"
 
 
+#include <iostream>
+//#include <iterator>
+
+
+
+std::list<myGameObject*> myGameObjects;
 MyPlayer player = MyPlayer();
+
 Ball ball = Ball();
 
-
-
-
+//myGameObject walls[] = new myGameObject[]; // {myGameObject(), myGameObject() , myGameObject() , myGameObject() , myGameObject() };
 
 // The entry point for a PlayBuffer program
 void MainGameEntry(PLAY_IGNORE_COMMAND_LINE)
@@ -27,7 +32,16 @@ void MainGameEntry(PLAY_IGNORE_COMMAND_LINE)
 	player.Init("paddle", { ScreenCentreX, Statics::DISPLAY_HEIGHT * 0.8f }, { 160, 20 });
 	ball.Init("ball", { ScreenCentreX, ScreenCentreY }, { 25.0f, 25.0f });
 
+	myGameObjects.push_back(&player );
+	myGameObjects.push_back(&ball );
 
+	//for (myGameObject x : walls)
+	//{
+	//	x.Init("ball", { 0, 0}, { 25.0f, 25.0f });
+
+	//	myGameObjects.push_back(&x);
+
+	//}
 
 }
 
@@ -36,26 +50,14 @@ bool MainGameUpdate(float elapsedTime)
 {
 	Play::ClearDrawingBuffer(Play::cBlack);
 
-	player.Update();
-	ball.Update();
 
-
-	Vector2f	topLeftBallPos = ball.GetPosition();
-	Vector2f	bottomRightBallPos = topLeftBallPos + ball.rectScale;
-	Vector2f	topLeftPlayerPos = player.GetPosition();
-	Vector2f	bottomRightPlayerPos = topLeftPlayerPos + player.rectScale;
-
-
-
-	bool xCollision = bottomRightBallPos.x > topLeftPlayerPos.x && bottomRightPlayerPos.x > topLeftBallPos.x;
-	bool yCollision = bottomRightBallPos.y > topLeftPlayerPos.y && bottomRightPlayerPos.y > topLeftBallPos.y;
-
-	if (xCollision && yCollision)
+	for (myGameObject* x : myGameObjects) 
 	{
-		ball.BounceY();
-	}
+		x->Update();
 
-	
+		if (x != &ball) 			ball.CheckBounce(*x);
+
+	}
 
 	Play::PresentDrawingBuffer();
 	return Play::KeyDown(VK_ESCAPE);
